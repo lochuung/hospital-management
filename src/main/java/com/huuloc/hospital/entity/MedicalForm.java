@@ -73,4 +73,20 @@ public class MedicalForm {
     public void setExamined(boolean examined) {
         isExamined = examined;
     }
+
+    public Receptionist getReceptionist() {
+        return receptionist;
+    }
+
+    public void setReceptionist(Receptionist receptionist) {
+        this.receptionist = receptionist;
+    }
+
+    public Date getExaminationDate() {
+        return examinationDate;
+    }
+
+    public void setExaminationDate(Date examinationDate) {
+        this.examinationDate = examinationDate;
+    }
 }

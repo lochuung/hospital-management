@@ -48,4 +48,20 @@ public class Prescription implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public MedicalForm getMedicalForm() {
+        return medicalForm;
+    }
+
+    public void setMedicalForm(MedicalForm medicalForm) {
+        this.medicalForm = medicalForm;
+    }
 }

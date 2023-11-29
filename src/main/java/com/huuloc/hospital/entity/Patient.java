@@ -10,6 +10,7 @@ public class Patient implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String idCard;
 	private String fullName;
 	@Temporal(TemporalType.DATE)
 	private Date dob;
@@ -73,6 +74,14 @@ public class Patient implements java.io.Serializable {
 
 	public String getInsuranceNumber() {
 		return insuranceNumber;
+	}
+
+	public String getIdCard() {
+		return idCard;
+	}
+
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
 	}
 
 	public void setInsuranceNumber(String insuranceNumber) {
