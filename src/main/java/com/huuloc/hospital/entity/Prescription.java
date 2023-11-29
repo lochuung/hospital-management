@@ -11,14 +11,9 @@ public class Prescription implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
-            targetEntity = Patient.class)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
-            targetEntity = Doctor.class)
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            targetEntity = MedicalForm.class)
+    private MedicalForm medicalForm;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             targetEntity = Disease.class)
@@ -28,30 +23,6 @@ public class Prescription implements Serializable {
     private String note;
 
     public Prescription() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 
     public Disease getDisease() {
