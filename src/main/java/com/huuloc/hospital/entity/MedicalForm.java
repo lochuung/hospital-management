@@ -2,6 +2,8 @@ package com.huuloc.hospital.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "medical_form")
 public class MedicalForm {
@@ -25,7 +27,8 @@ public class MedicalForm {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             targetEntity = Prescription.class)
     private Prescription prescription;
-
+    @Temporal(TemporalType.DATE)
+    private Date examinationDate;
     private boolean isExamined;
 
     public MedicalForm() {
