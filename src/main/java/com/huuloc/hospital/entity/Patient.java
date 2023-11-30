@@ -1,7 +1,7 @@
 package com.huuloc.hospital.entity;
 
 import com.huuloc.hospital.util.Gender;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity

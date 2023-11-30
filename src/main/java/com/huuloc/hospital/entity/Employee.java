@@ -1,7 +1,11 @@
 package com.huuloc.hospital.entity;
 
 import com.huuloc.hospital.util.Gender;
-import jakarta.persistence.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,8 +17,10 @@ import java.util.List;
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Employee implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
+    @NotEmpty
     private String fullName;
     @Temporal(TemporalType.DATE)
     private Date dob;
@@ -24,12 +30,18 @@ public class Employee implements Serializable {
     private String phone;
     @Column(insertable = false, updatable = false)
     private String type;
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
+    @NotEmpty
+    @Email(message = "{errors.invalid_email}")
     private String email;
     @Temporal(TemporalType.DATE)
     private Date joinDate;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
+    @NotEmpty
     private String username;
+    @Column(nullable = false)
+    @NotEmpty
+    @Size(min = 4)
     private String password;
     @Lob
     private String photo;
