@@ -13,7 +13,7 @@ public class PrescriptionItem implements Serializable {
     private Prescription prescription;
     @Id
     @OneToOne
-    private DrugStock drugStock;
+    private Drug drug;
     private Integer quantity;
     private String note;
 
@@ -28,12 +28,12 @@ public class PrescriptionItem implements Serializable {
         this.prescription = prescription;
     }
 
-    public DrugStock getDrugStock() {
-        return drugStock;
+    public Drug getDrug() {
+        return drug;
     }
 
-    public void setDrugStock(DrugStock drugStock) {
-        this.drugStock = drugStock;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
     }
 
     public Integer getQuantity() {

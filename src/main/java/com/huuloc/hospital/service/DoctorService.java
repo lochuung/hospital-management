@@ -16,6 +16,6 @@ public interface DoctorService {
                             List<PrescriptionItem> items,
                             String note);
 
-    List<Patient> getAllPatients();
-    List<Patient> getPatientsNotExamined();
+    List<Patient> getAllPatients(long doctorId);
+    List<Patient> getPatientsNotExamined(long doctorId);
 }

@@ -1,9 +1,9 @@
 package com.huuloc.hospital.service.impl;
 
 import com.huuloc.hospital.entity.*;
+import com.huuloc.hospital.repository.MedicalFormRepository;
 import com.huuloc.hospital.repository.PrescriptionRepository;
 import com.huuloc.hospital.service.DoctorService;
-import com.huuloc.hospital.service.MedicalFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,12 @@ import java.util.List;
 @Service
 public class DoctorServiceImpl implements DoctorService {
     private final PrescriptionRepository prescriptionRepository;
-    private final MedicalFormService medicalFormService;
+    private final MedicalFormRepository medicalFormRepository;
 
     @Autowired
-    public DoctorServiceImpl(PrescriptionRepository prescriptionRepository,
-                             MedicalFormService medicalFormService) {
+    public DoctorServiceImpl(PrescriptionRepository prescriptionRepository, MedicalFormRepository medicalFormRepository) {
         this.prescriptionRepository = prescriptionRepository;
-        this.medicalFormService = medicalFormService;
+        this.medicalFormRepository = medicalFormRepository;
     }
 
 
@@ -57,12 +56,14 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Patient> getAllPatients() {
-        return null;
+    public List<Patient> getAllPatients(long doctorId) {
+        return medicalFormRepository
+                .findAllPatientsByDoctor(doctorId);
     }
 
     @Override
-    public List<Patient> getPatientsNotExamined() {
-        return null;
+    public List<Patient> getPatientsNotExamined(long doctorId) {
+        return medicalFormRepository
+                .getPatientsNotExaminedByDoctor(doctorId);
     }
 }

@@ -18,8 +18,28 @@ public class HomeController {
     @GetMapping(value = "/")
     public String home(Model model, Authentication authentication) {
         if (authentication != null) {
-            Employee employee = employeeService.findByUsername(authentication.getName());
-            model.addAttribute("employee", employee);
+            String role = authentication.getAuthorities().stream()
+                    .findFirst().orElseThrow(
+                            () ->
+                                    new IllegalStateException("Cannot find role!"))
+                    .getAuthority();
+            switch (role) {
+                case "ROLE_ADMIN" -> {
+                    return "redirect:/admin";
+                }
+                case "ROLE_DOCTOR" -> {
+                    return "redirect:/doctor";
+                }
+                case "ROLE_PHARMACIST" -> {
+                    return "redirect:/pharmacist";
+                }
+                case "ROLE_ACCOUNTANT" -> {
+                    return "redirect:/accountant";
+                }
+                case "ROLE_RECEPTIONIST" -> {
+                    return "redirect:/receptionist";
+                }
+            }
         }
         return "index";
     }

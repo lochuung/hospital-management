@@ -9,7 +9,6 @@ import javax.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -36,7 +35,8 @@ public class Employee implements Serializable {
     private String email;
     @Temporal(TemporalType.DATE)
     private Date joinDate;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false,
+            length = 20)
     @NotEmpty
     private String username;
     @Column(nullable = false)

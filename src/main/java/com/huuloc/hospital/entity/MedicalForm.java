@@ -5,6 +5,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "MedicalForm.findAllPatientsByDoctor",
+                query = "SELECT DISTINCT m.patient FROM MedicalForm m" +
+                        " WHERE m.doctor.id = :doctorId"),
+        @NamedQuery(name ="MedicalForm.getPatientsNotExaminedByDoctor",
+                query = "SELECT DISTINCT m.patient FROM MedicalForm m " +
+                        "WHERE m.doctor.id = :doctorId AND m.isExamined = false"),
+})
 @Table(name = "medical_form")
 public class MedicalForm {
     @Id
