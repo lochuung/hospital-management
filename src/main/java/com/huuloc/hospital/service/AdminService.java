@@ -10,4 +10,6 @@ public interface AdminService {
     long updateEmployee(long id, Employee employee);
     List<Employee> getAllEmployees();
     Employee getEmployee(long id);
+    boolean checkEmployeeExists(Employee employee);
+    boolean checkEmployeeExists(long id);
 }
