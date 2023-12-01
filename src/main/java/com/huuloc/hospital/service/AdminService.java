@@ -9,4 +9,5 @@ public interface AdminService {
     void deleteEmployee(long id);
     long updateEmployee(long id, Employee employee);
     List<Employee> getAllEmployees();
+    Employee getEmployee(long id);
 }

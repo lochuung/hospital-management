@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="content">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="mb-4">Employee Details</h5>
+                        <div class="row">
+                            <div class="col-lg-6 mx-auto" th:object="${employee}">
+                                <h3 class="mt-lg-0 mt-4" th:text="*{fullName}"></h3>
+                                <h6 class="mb-0" th:text="*{username}"></h6>
+                                <h5 th:text="'Role: ' + *{type}"></h5>
+                                <span class="badge badge-success"
+                                      th:text="*{id}"></span>
+                                <br>
+                                <label class="mt-4">Info</label>
+                                <ul>
+                                    <li th:text="'Join Date: ' + *{joinDate}"></li>
+                                    <li th:text="'Date of Birth: ' + *{dob}"></li>
+                                    <li th:text="'Gender: ' + *{gender}"></li>
+                                    <li th:text="'Email: ' + *{email}"></li>
+                                    <li th:text="'Phone number: ' + *{phone}"></li>
+                                    <div th:if="${employee.type == 'ROLE_DOCTOR'}">
+                                        <li th:text="'Department: ' + ${department.name}"></li>
+                                        <li th:text="'Phone number: ' + ${position.name}"></li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

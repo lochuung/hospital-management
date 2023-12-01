@@ -55,4 +55,10 @@ public class AdminServiceImpl implements AdminService {
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
+
+    @Override
+    public Employee getEmployee(long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
+    }
 }
