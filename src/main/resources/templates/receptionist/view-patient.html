@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="content">
+    <div class="container py-4">
+        <div class="row mt-4">
+            <div class="col-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-lg-flex">
+                            <div>
+                                <h5 class="mb-0">Patient Details</h5>
+                                <p class="text-sm mb-0">
+                                    Patient management for receptionist.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 mx-auto" th:object="${patient}">
+                                <h3 class="mt-lg-0 mt-4" th:text="*{fullName}"></h3>
+                                <h6 class="mb-0" th:text="'Insurance Number: '
+                                + *{insuranceNumber}"></h6>
+                                <h5 th:text="'Birthday: ' + *{dob}"></h5>
+                                <span class="badge badge-success"
+                                      th:text="*{id}"></span>
+                                <br>
+                                <label class="mt-4">Other Info</label>
+                                <ul>
+                                    <li th:text="'Gender: ' + *{gender}"></li>
+                                    <li th:text="'Phone: ' + *{phone}"></li>
+                                    <li th:text="'Address: ' + *{address}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

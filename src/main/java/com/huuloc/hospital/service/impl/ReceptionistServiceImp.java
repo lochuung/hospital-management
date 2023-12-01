@@ -54,44 +54,14 @@ public class ReceptionistServiceImp implements ReceptionistService {
     }
 
     @Override
-    public long addMedicalForm(Receptionist receptionist, Patient patient,
-                               Doctor doctor, Date examinationDate,
-                               boolean isExamination) {
-        MedicalForm medicalForm = new MedicalForm();
-        medicalForm.setReceptionist(receptionist);
-        medicalForm.setPatient(patient);
-        medicalForm.setDoctor(doctor);
-        medicalForm.setExaminationDate(examinationDate);
-        medicalForm.setExamined(isExamination);
-        medicalFormRepository.save(medicalForm);
-        return medicalForm.getId();
+    public Patient getPatientById(long id) {
+        return patientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid patient Id:" + id));
     }
 
     @Override
-    public boolean updateMedicalForm(long id, Receptionist receptionist, Patient patient,
-                                     Doctor doctor, Date examinationDate,
-                                     boolean isExamination) {
-        MedicalForm oldMedicalForm = medicalFormRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid medical form Id:"
-                        + id));
-
-        oldMedicalForm.setReceptionist(receptionist);
-        oldMedicalForm.setPatient(patient);
-        oldMedicalForm.setDoctor(doctor);
-        oldMedicalForm.setExaminationDate(examinationDate);
-        oldMedicalForm.setExamined(isExamination);
-
-        medicalFormRepository.save(oldMedicalForm);
-        return true;
-    }
-
-    @Override
-    public void deleteMedicalForm(long id) {
-        medicalFormRepository.deleteById(id);
-    }
-
-    @Override
-    public List<MedicalForm> getAllMedicalForms() {
-        return medicalFormRepository.findAll();
+    public boolean checkPatientExists(Patient patient) {
+        return patientRepository.findByIdCardOrId(patient.getIdCard(), patient.getId())
+                .isPresent();
     }
 }

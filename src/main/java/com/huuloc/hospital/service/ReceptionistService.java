@@ -13,17 +13,6 @@ public interface ReceptionistService {
     boolean updatePatient(long id, Patient patient);
     void deletePatient(long id);
     List<Patient> getAllPatients();
-    long addMedicalForm(Receptionist receptionist,
-                        Patient patient,
-                        Doctor doctor,
-                        Date examinationDate,
-                        boolean isExamination);
-    boolean updateMedicalForm(long id,
-                           Receptionist receptionist,
-                           Patient patient,
-                           Doctor doctor,
-                           Date examinationDate,
-                           boolean isExamination);
-    void deleteMedicalForm(long id);
-    List<MedicalForm> getAllMedicalForms();
+    Patient getPatientById(long id);
+    boolean checkPatientExists(Patient patient);
 }
