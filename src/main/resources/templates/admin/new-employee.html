@@ -32,13 +32,13 @@
                             <div class="col-12 col-sm-6">
                                 <label>Full Name</label>
                                 <input class="form-control" type="text"
-                                th:value="*{fullName}"
+                                th:value="*{fullName}" required
                                 name="fullName"/>
                             </div>
                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                 <label>Email</label>
                                 <input class="form-control" type="email"
-                                th:value="*{email}"
+                                th:value="*{email}" required
                                 name = "email"/>
                             </div>
                         </div>
@@ -46,12 +46,12 @@
                             <div class="col-3">
                                 <label class="mt-4">Username</label>
                                 <input class="form-control" type="text"
-                                th:value="*{username}"
+                                th:value="*{username}" required
                                 name = "username"/>
                             </div>
                             <div class="col-3">
                                 <label class="mt-4">Password</label>
-                                <input class="form-control" type="password"
+                                <input class="form-control" type="password" required
                                 name = "password"/>
                             </div>
                             <div class="col-3">
@@ -65,24 +65,36 @@
                             <div class="col-6">
                                 <label class="mt-4">Birthday</label>
                                 <input class="form-control" type="date"
-                                       pattern="dd/MM/yyyy"
+                                       pattern="dd/MM/yyyy" required
                                 th:value="*{dob}"
                                 name = "dob"/>
                             </div>
                             <div class="col-sm-6">
                                 <label class="mt-4">Gender</label>
-                                <select class="form-control" name = "gender">
-                                    <option value="MALE" selected>Male</option>
-                                    <option value="FEMALE">Female</option>
+                                <select class="form-control" name="gender"
+                                >
+                                    <option value="MALE"
+                                            th:selected="${employee.gender == 'MALE'}">Male
+                                    </option>
+                                    <option value="FEMALE"
+                                            th:selected="${employee.gender == 'FEMALE'}">Female
+                                    </option>
                                 </select>
                                 <label>Role</label>
                                 <select class="form-control"
-                                name="type">
-                                    <option value="Admin">Admin</option>
-                                    <option value="Doctor" selected>Doctor</option>
-                                    <option value="Pharmacist">Pharmacist</option>
-                                    <option value="Receptionist">Receptionist</option>
-                                    <option value="Accountant">Accountant</option>
+                                        name="type">
+                                    <option value="Admin"
+                                            th:selected="${employee.type == 'Admin'}">Admin
+                                    </option>
+                                    <option value="Doctor"
+                                            th:selected="${employee.type == 'Doctor'}">
+                                        Doctor</option>
+                                    <option value="Pharmacist"
+                                            th:selected="${employee.type == 'Pharmacist'}">Pharmacist</option>
+                                    <option value="Receptionist"
+                                            th:selected="${employee.type == 'Receptionist'}">Receptionist</option>
+                                    <option value="Accountant"
+                                            th:selected="${employee.type == 'Accountant'}">Accountant</option>
                                 </select>
                             </div>
                         </div>

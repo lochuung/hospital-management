@@ -31,23 +31,10 @@
                     <span class="sidenav-normal"> Employees <b class="caret"></b></span>
                 </a>
             </li>
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a th:class="${#request.requestURI == '/admin/departments'? 'active nav-link'
-                 : 'nav-link'}"
-                   th:href="@{/admin/departments}">
-                    <span class="sidenav-normal"> Departments <b class="caret"></b></span>
-                </a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a th:class="${#request.requestURI == '/admin/positions'? 'active nav-link'
-                 : 'nav-link'}"
-                   th:href="@{/admin/positions}">
-                    <span class="sidenav-normal"> Positions <b class="caret"></b></span>
-                </a>
-            </li>
-            <li class="nav-item" sec:authorize="hasAuthority('RECEPTIONIST')">
-                <a th:class="nav-link ${#request.requestURI == '/receptionist/patients'? 'active nav-link'
-                : 'nav-link'}"
+            <li class="nav-item" sec:authorize="hasRole('RECEPTIONIST')">
+                <a th:class="${#httpServletRequest.requestURI.equals('/receptionist') ||
+                #httpServletRequest.requestURI.equals('/receptionist/patients')
+                ? 'active nav-link' : 'nav-link'}"
                    th:href="@{/receptionist/patients}">
                     <span class="sidenav-normal">Patients<b class="caret"></b></span>
                 </a>

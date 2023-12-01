@@ -19,6 +19,8 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class ProfileController {
     private final EmployeeRepository employeeRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public ProfileController(EmployeeRepository employeeRepository) {
@@ -51,9 +53,8 @@ public class ProfileController {
         ModelAndView modelAndView = new ModelAndView(new RedirectView());
         Employee employeeExists = employeeRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         boolean hasError = false;
-        if (!passwordEncoder.matches(oldPassword, employeeExists.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(oldPassword, employeeExists.getPassword())) {
             modelAndView.addObject("errorMessage",
                     "Old password is incorrect");
             hasError = true;
@@ -70,7 +71,7 @@ public class ProfileController {
         modelAndView.setViewName("profile");
         modelAndView.addObject("employee", employeeExists);
         if (!hasError) {
-            employeeExists.setPassword(passwordEncoder.encode(newPassword));
+            employeeExists.setPassword(bCryptPasswordEncoder.encode(newPassword));
             employeeRepository.save(employeeExists);
             modelAndView.addObject("successMessage", "Password has been changed successfully");
         }

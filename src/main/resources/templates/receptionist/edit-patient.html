@@ -32,7 +32,7 @@
                             <div class="col-12 col-sm-6">
                                 <label>Full Name</label>
                                 <input class="form-control" type="text"
-                                       th:value="*{fullName}"
+                                       th:value="*{fullName}" required
                                        name="fullName"/>
                             </div>
                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
@@ -43,24 +43,35 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-3">
                                 <label class="mt-4">Phone Number</label>
                                 <input class="form-control" type="tel"
                                        th:value="*{phone}"
                                        name="phone"/>
                             </div>
+                            <div class="col-3">
+                                <label class="mt-4">Insurance Number</label>
+                                <input class="form-control" type="text"
+                                       th:value="*{insuranceNumber}"
+                                       name="insuranceNumber"
+                                       placeholder="Not required"/>
+                            </div>
                             <div class="col-sm-3">
                                 <label class="mt-4">Gender</label>
                                 <select class="form-control" name="gender">
-                                    <option value="MALE" selected>Male</option>
-                                    <option value="FEMALE">Female</option>
+                                    <option value="MALE"
+                                            th:selected="${patient.gender == 'MALE'}">Male
+                                    </option>
+                                    <option value="FEMALE"
+                                            th:selected="${patient.gender == 'FEMALE'}">Female
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-3">
                                 <label class="mt-4">Birthday</label>
                                 <input class="form-control" type="date"
                                        pattern="dd/MM/yyyy"
-                                       th:value="*{dob}"
+                                       th:value="*{dob}" required
                                        name="dob"/>
                             </div>
                         </div>

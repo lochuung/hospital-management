@@ -6,6 +6,7 @@ import com.huuloc.hospital.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,6 +43,14 @@ public class AdminServiceImpl implements AdminService {
             default:
                 throw new IllegalArgumentException("Invalid employee type!");
         }
+        copyEmployee(employee, oldEmployee);
+        employee.setJoinDate(new Date());
+
+        employeeRepository.save(employee);
+        return employee.getId();
+    }
+
+    private void copyEmployee(Employee employee, Employee oldEmployee) {
         employee.setFullName(oldEmployee.getFullName());
         employee.setEmail(oldEmployee.getEmail());
         employee.setGender(oldEmployee.getGender());
@@ -50,9 +59,6 @@ public class AdminServiceImpl implements AdminService {
         employee.setAddress(oldEmployee.getAddress());
         employee.setPhone(oldEmployee.getPhone());
         employee.setDob(oldEmployee.getDob());
-
-        employeeRepository.save(employee);
-        return employee.getId();
     }
 
     @Override
@@ -65,14 +71,7 @@ public class AdminServiceImpl implements AdminService {
         Employee old = employeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
 
-        old.setFullName(employee.getFullName());
-        old.setEmail(employee.getEmail());
-        old.setGender(employee.getGender());
-        old.setUsername(employee.getUsername());
-        old.setPassword(employee.getPassword());
-        old.setAddress(employee.getAddress());
-        old.setPhone(employee.getPhone());
-        old.setDob(employee.getDob());
+        copyEmployee(old, employee);
         old.setType(employee.getType());
 
         employeeRepository.save(old);

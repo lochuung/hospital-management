@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,8 @@ import java.util.Objects;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping(value = {"", "/", "/employees"})
     public String home(Model model, Authentication authentication) {
@@ -40,8 +43,15 @@ public class AdminController {
 
     @GetMapping(value = "/employees/preview/{id}")
     public String previewEmployee(Model model, @PathVariable Long id) {
-        Employee employee = adminService
-                .getEmployee(id);
+        Employee employee;
+        try {
+            employee = adminService
+                    .getEmployee(id);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("employees", adminService.getAllEmployees());
+            return "admin/employees";
+        }
         model.addAttribute("employee", employee);
         return "admin/view-employee";
     }
@@ -68,8 +78,8 @@ public class AdminController {
                     bindingResult.getFieldError()
                             .getDefaultMessage());
         } else {
-            employee.setJoinDate(new java.sql.Date(new java.util.Date().getTime()));
-            employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
+            employee.setJoinDate(new Date());
+            employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
             adminService.addEmployee(employee);
             modelAndView.addObject("successMessage",
                     "Employee has been added successfully");
@@ -94,7 +104,7 @@ public class AdminController {
 
         Employee oldEmployee = adminService.getEmployee(id);
         if (!oldEmployee.getPassword().equals(employee.getPassword())) {
-            employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
+            employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         }
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("errorMessage",
