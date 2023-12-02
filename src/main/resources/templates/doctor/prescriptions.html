@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="content">
+    <div class="container py-4">
+        <div class="row mt-4">
+            <div class="col-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-lg-flex">
+                            <div>
+                                <h5 class="mb-0">Patient Details</h5>
+                                <p class="text-sm mb-0">
+                                    Patient management for receptionist.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 mx-auto" th:object="${patient}">
+                                <h3 class="mt-lg-0 mt-4" th:text="*{fullName}"></h3>
+                                <h6 class="mb-0" th:text="'Insurance Number: '
+                                + *{insuranceNumber}"></h6>
+                                <h5 th:text="'Birthday: ' + *{dob}"></h5>
+                                <span class="badge badge-success"
+                                      th:text="*{id}"></span>
+                                <br>
+                                <label class="mt-4">Other Info</label>
+                                <ul>
+                                    <li th:text="'Gender: ' + *{gender}"></li>
+                                    <li th:text="'Phone: ' + *{phone}"></li>
+                                    <li th:text="'Address: ' + *{address}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="alert alert-danger text-center" role="alert"
+                         th:if="${errorMessage != null}">
+                            <span class="alert-text text-light"
+                                  th:text="${errorMessage}">
+                            </span>
+                    </div>
+                    <div class="alert alert-success text-center" role="alert"
+                         th:if="${successMessage != null}">
+                            <span class="alert-text text-light"
+                                  th:text="${successMessage}">
+                            </span>
+                    </div>
+                    <div class="card-header">
+                        <div class="d-lg-flex">
+                            <div>
+                                <h5 class="mb-0">Prescriptions Management</h5>
+                                <p class="text-sm mb-0">
+                                    Prescriptions management for doctor.
+                                </p>
+                            </div>
+                            <div class="ms-auto my-auto">
+                                <a th:href="@{/doctor/prescriptions/{id}/new(id = ${patient.id})}"
+                                   class="btn bg-gradient-primary btn-sm mb-0"
+                                >+&nbsp; New Prescriptions</a>
+                                <button class="btn btn-outline-primary
+                                btn-sm export mb-0 mt-sm-0 mt-1"
+                                        data-type="csv" type="button" name="button">Export
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="datatable-search">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Id</th>
+                                <th>Disease Name</th>
+                                <th>Date</th>
+                                <th>Note</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="prescription : ${prescriptions}">
+                                <td th:text="${prescription.id}"></td>
+                                <td th:text="${prescription.diseaseName}"></td>
+                                <td th:text="${prescription.date}"></td>
+                                <td th:text="${prescription.note}"></td>
+                                <td class="text-sm">
+                                    <a th:href="@{/doctor/prescriptions/{id}(
+                                    id = ${patient.id})/preview/{id}(id=${prescription.id})}"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-original-title="Preview">
+                                        <i class="fas fa-eye text-secondary"></i>
+                                    </a>
+                                    <a th:href="@{/doctor/prescriptions/{id}(
+                                    id = ${patient.id})/edit/{id}(id=${prescription.id})}"
+                                       class="mx-3" data-bs-toggle="tooltip"
+                                       data-bs-original-title="Edit">
+                                        <i class="fas fa-user-edit text-secondary"></i>
+                                    </a>
+                                    <a th:href="@{/doctor/prescriptions/{id}(
+                                    id = ${patient.id})/delete/{id}(id=${prescription.id})}"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-original-title="Delete product">
+                                        <i class="fas fa-trash text-secondary"></i>
+                                    </a>
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="scripts">
+    <script>
+        const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
+            searchable: true,
+            fixedHeight: true,
+            perPage: 5,
+            order: [
+                [0, 'desc']
+            ],
+        });
+        document.querySelectorAll(".export").forEach(function (el) {
+            el.addEventListener("click", function (e) {
+                const type = el.dataset.type;
+
+                const data = {
+                    type: type,
+                    filename: "employees",
+                };
+
+                if (type === "csv") {
+                    data.columnDelimiter = "|";
+                }
+
+                dataTableSearch.export(data);
+            });
+        });
+    </script>
+</th:block>
+</html>

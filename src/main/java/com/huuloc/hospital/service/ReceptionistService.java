@@ -1,7 +1,6 @@
 package com.huuloc.hospital.service;
 
 import com.huuloc.hospital.entity.Doctor;
-import com.huuloc.hospital.entity.MedicalForm;
 import com.huuloc.hospital.entity.Patient;
 import com.huuloc.hospital.entity.Receptionist;
 

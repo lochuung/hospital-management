@@ -29,17 +29,23 @@
                     <div class="card-body">
                         <h5 class="font-weight-bolder">New Patient</h5>
                         <div class="row">
-                            <div class="col-12 col-sm-6">
+                            <div class="col-12 col-sm-3">
                                 <label>Full Name</label>
                                 <input class="form-control" type="text"
                                        th:value="*{fullName}" required
                                        name="fullName"/>
                             </div>
-                            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                            <div class="col-12 col-sm-3">
                                 <label>ID Card</label>
                                 <input class="form-control" type="text"
                                        th:value="*{idCard}" required
                                        name="idCard"/>
+                            </div>
+                            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                                <label>Address</label>
+                                <input class="form-control" type="text"
+                                       th:value="*{address}" required
+                                       name="address"/>
                             </div>
                         </div>
                         <div class="row">

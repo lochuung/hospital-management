@@ -1,69 +1,75 @@
 package com.huuloc.hospital.service.impl;
 
 import com.huuloc.hospital.entity.*;
-import com.huuloc.hospital.repository.MedicalFormRepository;
-import com.huuloc.hospital.repository.PrescriptionRepository;
+import com.huuloc.hospital.repository.*;
 import com.huuloc.hospital.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
-    private final PrescriptionRepository prescriptionRepository;
-    private final MedicalFormRepository medicalFormRepository;
-
     @Autowired
-    public DoctorServiceImpl(PrescriptionRepository prescriptionRepository, MedicalFormRepository medicalFormRepository) {
-        this.prescriptionRepository = prescriptionRepository;
-        this.medicalFormRepository = medicalFormRepository;
-    }
-
+    private PrescriptionRepository prescriptionRepository;
+    @Autowired
+    private PatientRepository patientRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
+    private DrugRepository drugRepository;
 
     @Override
-    public long addPrescription(Disease disease, MedicalForm medicalForm,
-                                List<PrescriptionItem> items, String note) {
-        Prescription prescription = new Prescription();
-        prescription.setDisease(disease);
-        prescription.setMedicalForm(medicalForm);
-        prescription.setPrescriptionItems(items);
-        prescription.setNote(note);
+    public List<Patient> findAllPatient() {
+        return patientRepository.findAll();
+    }
 
+    @Override
+    public Patient findPatientById(Long id) {
+        return patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
+
+    @Override
+    public List<Drug> findAllDrug() {
+        return drugRepository.findAll();
+    }
+
+    @Override
+    public Drug findDrugById(Long id) {
+        return drugRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Drug not found"));
+    }
+
+    @Override
+    public List<Prescription> findAllPrescription(Long patientId, Long doctorId) {
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+        Doctor doctor = (Doctor) employeeRepository.findById(doctorId).
+                orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+        return prescriptionRepository.findAllByPatientAndDoctor(patient, doctor);
+    }
+
+    @Override
+    public long addPrescription(Prescription prescription) {
         return prescriptionRepository.save(prescription).getId();
     }
 
     @Override
-    public void deletePrescription(long id) {
-        prescriptionRepository.deleteById(id);
-    }
-
-    @Override
-    public long updatePrescription(long id,
-                                   Disease disease,
-                                   MedicalForm medicalForm,
-                                   List<PrescriptionItem> items,
-                                   String note) {
-        Prescription prescription = prescriptionRepository
-                .findById(id)
+    public Prescription findPrescriptionById(Long id) {
+        return prescriptionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prescription not found"));
+    }
 
-        prescription.setDisease(disease);
-        prescription.setPrescriptionItems(items);
-        prescription.setNote(note);
-
+    @Override
+    public long updatePrescription(Prescription prescription) {
         return prescriptionRepository.save(prescription).getId();
     }
 
     @Override
-    public List<Patient> getAllPatients(long doctorId) {
-        return medicalFormRepository
-                .findAllPatientsByDoctor(doctorId);
-    }
-
-    @Override
-    public List<Patient> getPatientsNotExamined(long doctorId) {
-        return medicalFormRepository
-                .getPatientsNotExaminedByDoctor(doctorId);
+    public void deletePrescription(Long id) {
+        prescriptionRepository.deleteById(id);
     }
 }

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="content">
+    <div class="container-fluid py-4">
+        <div class="row mt-4">
+            <div class="col-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-lg-flex">
+                            <div>
+                                <h5 class="mb-0">Patient Details</h5>
+                                <p class="text-sm mb-0">
+                                    Patient management for receptionist.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 mx-auto" th:object="${patient}">
+                                <h3 class="mt-lg-0 mt-4" th:text="*{fullName}"></h3>
+                                <h6 class="mb-0" th:text="'Insurance Number: '
+                                + *{insuranceNumber}"></h6>
+                                <h5 th:text="'Birthday: ' + *{dob}"></h5>
+                                <span class="badge badge-success"
+                                      th:text="*{id}"></span>
+                                <br>
+                                <label class="mt-4">Other Info</label>
+                                <ul>
+                                    <li th:text="'Gender: ' + *{gender}"></li>
+                                    <li th:text="'Phone: ' + *{phone}"></li>
+                                    <li th:text="'Address: ' + *{address}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Add New Prescription</h4>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div
+                    method="POST" class="col-lg-12 mt-lg-0 mt-4"
+                    th:object="${prescription}">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-lg-flex">
+                            <div>
+                                <h5 class="font-weight-bolder">New Prescription</h5>
+                            </div>
+                            <div class="ms-auto my-auto">
+                                <button class="btn btn-outline-primary
+                                btn-sm export mb-0 mt-sm-0 mt-1" id="add-drug"
+                                        type="button" name="button">Add New Drug
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <label>Disease Name</label>
+                                <input class="form-control" type="text"
+                                       th:value="*{diseaseName}" required
+                                       id="disease-name"
+                                       th:name="diseaseName"/>
+                            </div>
+                            <div class="col-12 col-sm-6 mt-3 mt-sm-0" id="drugs-container">
+                                <div class="row drug-item">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Drug</label>
+                                        <select class="form-control" name="choices-questions"
+                                                id="drug-1"
+                                                th:each="drug : ${drugs}">
+                                            <option th:value="${drug.id}" th:text="${drug.id} +
+                                            ': ' + ${drug.name}"></option>
+                                            <option value="" disabled>Your Choice</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Quantity</label>
+                                        <div class="form-group">
+                                            <input class="form-control" type="number"
+                                                   placeholder="Enter quantity"
+                                                   id="quantity-1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-outline">
+                                    <label class="mt-4">Note</label>
+                                    <input class="form-control" type="text"
+                                           th:value="*{note}"
+                                           id="note"
+                                           th:name="note"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="button" id="submit-btn" class="btn
+                        bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/plugins/choices.min.js}"></script>
+    <script th:inline="javascript">
+    </script>
+    <script th:inline="javascript">
+        if (document.getElementById('choices-questions')) {
+            var element = document.getElementById('choices-questions');
+            const example = new Choices(element);
+        }
+
+        const addDrugBtn = document.getElementById('add-drug');
+        const drugsContainer = document.getElementById('drugs-container');
+        addDrugBtn.onclick = () => {
+            let length = drugsContainer.children.length + 1;
+            let html = `
+                                <div class="row drug-item">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Drug</label>
+                                        <select class="form-control" name="choices-questions"
+                                                id="drug-${length}">
+                                            ` +
+                /*<![CDATA[*/
+                /*[# th:each="drug : ${drugs}"]*/
+                `<option value="${[[${drug.id}]] + ""}">${[[${drug.name}]] + ""}</option>`
+                /*[/]*/
+                /*]]>*/ + `
+                                            <option value="Your Question" disabled>Your Choice</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Quantity</label>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" placeholder="Enter quantity"
+                                            id="quantity-${length}">
+                                        </div>
+                                    </div>
+                                </div>`;
+            drugsContainer.insertAdjacentHTML('beforeend', html);
+            if (document.getElementById(`choices-questions-${length}`)) {
+                var element = document.getElementById(`choices-questions-${length}`);
+                const example = new Choices(element);
+            }
+        };
+        let submitBtn = document.getElementById('submit-btn');
+        submitBtn.onclick = function (e) {
+            e.preventDefault();
+            let diseaseName = document.getElementById('disease-name').value;
+            let note = document.getElementById('note').value;
+            let drugs = [];
+            for (let i = 1; i <= drugsContainer.children.length; i++) {
+                let drugId = document.getElementById(`drug-${i}`).value;
+                let quantity = document.getElementById(`quantity-${i}`).value;
+                if (drugId === '' || quantity === '') {
+                    continue;
+                }
+                if (drugs.find(drug => drug.drugId === drugId)) {
+                    alert('Drug is duplicated');
+                    return;
+                }
+
+                if (parseInt(quantity) <= 0) {
+                    alert('Quantity must be greater than 0');
+                    return;
+                }
+                drugs.push({
+                    drugId: drugId,
+                    quantity: quantity,
+                });
+            }
+            if (diseaseName === '' || drugs.length === 0) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            let prescription = {
+                diseaseName: diseaseName,
+                note: note,
+                prescriptionItems: drugs,
+            };
+            let id = [[${patient.id}]];
+
+            fetch(`/doctor/prescriptions/${id}/save`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': [[${_csrf.token}]]
+                },
+                body: JSON.stringify(prescription),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    alert('Add new prescription successfully');
+                    window.location.href = `/doctor/prescriptions/${id}`;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Add new prescription failed')
+                });
+        };
+
+    </script>
+</th:block>
+</html>

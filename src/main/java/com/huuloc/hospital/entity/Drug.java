@@ -1,6 +1,7 @@
 package com.huuloc.hospital.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 import java.io.Serializable;
 
@@ -10,12 +11,11 @@ public class Drug implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "prescription_id")
+    private Prescription prescription;
     private String name;
     private Double price;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-            targetEntity = Pharmacist.class)
-    private Pharmacist pharmacist;
-    private int quantity;
     public Drug() {
 
     }
@@ -26,6 +26,14 @@ public class Drug implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Prescription getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
     }
 
     public String getName() {
@@ -42,21 +50,5 @@ public class Drug implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Pharmacist getPharmacist() {
-        return pharmacist;
-    }
-
-    public void setPharmacist(Pharmacist pharmacist) {
-        this.pharmacist = pharmacist;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }

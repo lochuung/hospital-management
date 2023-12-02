@@ -35,8 +35,6 @@ public class ProfileController {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (employee.getType().equals("ROLE_DOCTOR")) {
             Doctor doctor = (Doctor) employee;
-            model.addAttribute("department", doctor.getDepartment());
-            model.addAttribute("position", doctor.getPosition());
         }
         model.addAttribute("employee", employeeRepository
                 .findByUsername(authentication.getName())

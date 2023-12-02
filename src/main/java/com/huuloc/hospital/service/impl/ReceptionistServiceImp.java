@@ -1,10 +1,8 @@
 package com.huuloc.hospital.service.impl;
 
 import com.huuloc.hospital.entity.Doctor;
-import com.huuloc.hospital.entity.MedicalForm;
 import com.huuloc.hospital.entity.Patient;
 import com.huuloc.hospital.entity.Receptionist;
-import com.huuloc.hospital.repository.MedicalFormRepository;
 import com.huuloc.hospital.repository.PatientRepository;
 import com.huuloc.hospital.service.ReceptionistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +15,6 @@ import java.util.List;
 public class ReceptionistServiceImp implements ReceptionistService {
     @Autowired
     private PatientRepository patientRepository;
-    @Autowired
-    private MedicalFormRepository medicalFormRepository;
 
     @Override
     public long addPatient(Patient patient) {

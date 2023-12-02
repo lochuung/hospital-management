@@ -31,9 +31,6 @@ public class AdminServiceImpl implements AdminService {
             case "Admin":
                 employee = new Admin();
                 break;
-            case "Pharmacist":
-                employee = new Pharmacist();
-                break;
             case "Receptionist":
                 employee = new Receptionist();
                 break;

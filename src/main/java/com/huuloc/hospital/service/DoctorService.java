@@ -5,17 +5,16 @@ import com.huuloc.hospital.entity.*;
 import java.util.List;
 
 public interface DoctorService {
-    long addPrescription(Disease disease,
-                         MedicalForm medicalForm,
-                         List<PrescriptionItem> items,
-                         String note);
-    void deletePrescription(long id);
-    long updatePrescription(long id,
-                            Disease disease,
-                            MedicalForm medicalForm,
-                            List<PrescriptionItem> items,
-                            String note);
+    List<Patient> findAllPatient();
+    Patient findPatientById(Long id);
+    List<Drug> findAllDrug();
+    Drug findDrugById(Long id);
 
-    List<Patient> getAllPatients(long doctorId);
-    List<Patient> getPatientsNotExamined(long doctorId);
+    List<Prescription> findAllPrescription(
+            Long patientId,
+            Long doctorId);
+    long addPrescription(Prescription prescription);
+    Prescription findPrescriptionById(Long id);
+    long updatePrescription(Prescription prescription);
+    void deletePrescription(Long id);
 }
