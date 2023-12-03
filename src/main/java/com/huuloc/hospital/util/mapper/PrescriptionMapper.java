@@ -1,11 +1,7 @@
 package com.huuloc.hospital.util.mapper;
 
 import com.huuloc.hospital.entity.Prescription;
-import com.huuloc.hospital.entity.PrescriptionItem;
 import com.huuloc.hospital.util.dto.PrescriptionDTO;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PrescriptionMapper {
     public static Prescription toPrescription(PrescriptionDTO prescriptionDTO) {

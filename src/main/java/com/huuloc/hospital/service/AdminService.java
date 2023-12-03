@@ -5,9 +5,9 @@ import com.huuloc.hospital.entity.Employee;
 import java.util.List;
 
 public interface AdminService {
-    long addEmployee(Employee employee);
+    void addEmployee(Employee employee);
     void deleteEmployee(long id);
-    long updateEmployee(long id, Employee employee);
+    void updateEmployee(long id, Employee employee);
     List<Employee> getAllEmployees();
     Employee getEmployee(long id);
     boolean checkEmployeeExists(Employee employee);

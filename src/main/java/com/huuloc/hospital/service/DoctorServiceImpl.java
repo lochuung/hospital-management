@@ -1,4 +1,4 @@
-package com.huuloc.hospital.service.impl;
+package com.huuloc.hospital.service;
 
 import com.huuloc.hospital.entity.*;
 import com.huuloc.hospital.repository.*;
@@ -6,19 +6,22 @@ import com.huuloc.hospital.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
+    private final PrescriptionRepository prescriptionRepository;
+    private final PatientRepository patientRepository;
+    private final EmployeeRepository employeeRepository;
+    private final DrugRepository drugRepository;
+
     @Autowired
-    private PrescriptionRepository prescriptionRepository;
-    @Autowired
-    private PatientRepository patientRepository;
-    @Autowired
-    private EmployeeRepository employeeRepository;
-    @Autowired
-    private DrugRepository drugRepository;
+    public DoctorServiceImpl(PrescriptionRepository prescriptionRepository, PatientRepository patientRepository, EmployeeRepository employeeRepository, DrugRepository drugRepository) {
+        this.prescriptionRepository = prescriptionRepository;
+        this.patientRepository = patientRepository;
+        this.employeeRepository = employeeRepository;
+        this.drugRepository = drugRepository;
+    }
 
     @Override
     public List<Patient> findAllPatient() {
@@ -43,6 +46,16 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public double getTotalPrice(List<PrescriptionItem> prescriptionItems) {
+        double totalPrice = 0;
+        for (PrescriptionItem prescriptionItem : prescriptionItems) {
+            totalPrice += prescriptionItem.getDrug().getPrice() *
+                    prescriptionItem.getQuantity();
+        }
+        return totalPrice;
+    }
+
+    @Override
     public List<Prescription> findAllPrescription(Long patientId, Long doctorId) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
@@ -53,23 +66,13 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public long addPrescription(Prescription prescription) {
-        return prescriptionRepository.save(prescription).getId();
+    public void addPrescription(Prescription prescription) {
+        prescriptionRepository.save(prescription);
     }
 
     @Override
     public Prescription findPrescriptionById(Long id) {
         return prescriptionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prescription not found"));
-    }
-
-    @Override
-    public long updatePrescription(Prescription prescription) {
-        return prescriptionRepository.save(prescription).getId();
-    }
-
-    @Override
-    public void deletePrescription(Long id) {
-        prescriptionRepository.deleteById(id);
     }
 }

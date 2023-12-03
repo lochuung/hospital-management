@@ -7,16 +7,32 @@ import java.io.Serializable;
 @Table(name = "prescription_item")
 public class PrescriptionItem  implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @OneToOne(targetEntity = Drug.class,
             fetch = FetchType.EAGER)
     private Drug drug;
-    @Id
     @ManyToOne(targetEntity = Prescription.class,
     fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Prescription prescription;
     private int quantity;
 
     public PrescriptionItem() {
+    }
+
+    public PrescriptionItem(Long id, Drug drug, Prescription prescription, int quantity) {
+        this.id = id;
+        this.drug = drug;
+        this.prescription = prescription;
+        this.quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Drug getDrug() {

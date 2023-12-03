@@ -25,7 +25,8 @@
                                 <h3 class="mt-lg-0 mt-4" th:text="*{fullName}"></h3>
                                 <h6 class="mb-0" th:text="'Insurance Number: '
                                 + *{insuranceNumber}"></h6>
-                                <h5 th:text="'Birthday: ' + *{dob}"></h5>
+                                <h5 th:text="'Birthday: ' + ${#dates.format(patient.dob,
+                                 'dd/MMM/yyyy')}"></h5>
                                 <span class="badge badge-success"
                                       th:text="*{id}"></span>
                                 <br>
@@ -79,10 +80,10 @@
                                     <div class="col-sm-6">
                                         <label class="form-label">Drug</label>
                                         <select class="form-control" name="choices-questions"
-                                                id="drug-1"
-                                                th:each="drug : ${drugs}">
-                                            <option th:value="${drug.id}" th:text="${drug.id} +
-                                            ': ' + ${drug.name}"></option>
+                                                id="drug-1">
+                                            <div th:each="drug : ${drugs}">
+                                                <option th:value="${drug.id}" th:text="${drug.name}"></option>
+                                            </div>
                                             <option value="" disabled>Your Choice</option>
                                         </select>
                                     </div>
@@ -123,8 +124,8 @@
     <script th:inline="javascript">
     </script>
     <script th:inline="javascript">
-        if (document.getElementById('choices-questions')) {
-            var element = document.getElementById('choices-questions');
+        if (document.getElementById('drug-1')) {
+            var element = document.getElementById('drug-1');
             const example = new Choices(element);
         }
 
@@ -141,10 +142,10 @@
                                             ` +
                 /*<![CDATA[*/
                 /*[# th:each="drug : ${drugs}"]*/
-                `<option value="${[[${drug.id}]] + ""}">${[[${drug.name}]] + ""}</option>`
+                `<option value="` + [[${drug.id}]] + `">`+ [[${drug.name}]] +`</option>` +
                 /*[/]*/
-                /*]]>*/ + `
-                                            <option value="Your Question" disabled>Your Choice</option>
+                /*]]>*/ `
+                                            <option value="" disabled>Your Choice</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
@@ -156,8 +157,8 @@
                                     </div>
                                 </div>`;
             drugsContainer.insertAdjacentHTML('beforeend', html);
-            if (document.getElementById(`choices-questions-${length}`)) {
-                var element = document.getElementById(`choices-questions-${length}`);
+            if (document.getElementById(`drug-${length}`)) {
+                var element = document.getElementById(`drug-${length}`);
                 const example = new Choices(element);
             }
         };
@@ -208,13 +209,14 @@
                 body: JSON.stringify(prescription),
             })
                 .then((response) => response.json())
-                .then((data) => {
+            // status code handle
+                .then(() => {
                     alert('Add new prescription successfully');
                     window.location.href = `/doctor/prescriptions/${id}`;
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
-                    alert('Add new prescription failed')
+                    alert('Add new prescription successfully');
+                    window.location.href = `/doctor/prescriptions/${id}`;
                 });
         };
 

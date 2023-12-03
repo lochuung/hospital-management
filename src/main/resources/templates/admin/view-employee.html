@@ -27,15 +27,11 @@
                                 <br>
                                 <label class="mt-4">Info</label>
                                 <ul>
-                                    <li th:text="'Join Date: ' + *{joinDate}"></li>
-                                    <li th:text="'Date of Birth: ' + *{dob}"></li>
+                                    <li th:text="'Join Date: ' + *{#dates.format(joinDate, 'dd/MM/yyyy')}"></li>
+                                    <li th:text="'Date of Birth: ' + *{#dates.format(dob, 'dd/MM/yyyy')}"></li>
                                     <li th:text="'Gender: ' + *{gender}"></li>
                                     <li th:text="'Email: ' + *{email}"></li>
                                     <li th:text="'Phone number: ' + *{phone}"></li>
-                                    <div th:if="${employee.type == 'ROLE_DOCTOR'}">
-                                        <li th:text="'Department: ' + ${department.name}"></li>
-                                        <li th:text="'Phone number: ' + ${position.name}"></li>
-                                    </div>
                                 </ul>
                             </div>
                         </div>

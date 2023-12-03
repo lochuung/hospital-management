@@ -1,10 +1,8 @@
 package com.huuloc.hospital.controller;
 
 import com.huuloc.hospital.entity.*;
-import com.huuloc.hospital.repository.EmployeeRepository;
 import com.huuloc.hospital.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -28,17 +25,11 @@ public class AdminController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping(value = {"", "/", "/employees"})
-    public String home(Model model, Authentication authentication) {
+    public String index(Model model, Authentication authentication) {
         assert authentication != null;
         List<Employee> employees = adminService.getAllEmployees();
         model.addAttribute("employees", employees);
         return "admin/employees";
-    }
-
-    @GetMapping(value = "/emoployees/add")
-    public String addEmployee(Model model) {
-        model.addAttribute("employee", new Employee());
-        return "admin/addEmployee";
     }
 
     @GetMapping(value = "/employees/preview/{id}")
@@ -118,7 +109,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    private ModelAndView EmployeeNotExistsModel(Long id, ModelAndView modelAndView) {
+    private ModelAndView employeeNotExistsModel(Long id, ModelAndView modelAndView) {
         if (!adminService.checkEmployeeExists(id)) {
             modelAndView.addObject("errorMessage",
                     "Employee not found");
@@ -131,7 +122,7 @@ public class AdminController {
     @GetMapping(value = "/employees/delete/{id}")
     public ModelAndView deleteEmployee(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView(new RedirectView());
-        ModelAndView modelAndView1 = EmployeeNotExistsModel(id, modelAndView);
+        ModelAndView modelAndView1 = employeeNotExistsModel(id, modelAndView);
         if (modelAndView1 != null) return modelAndView1;
         adminService.deleteEmployee(id);
         modelAndView.addObject("successMessage",

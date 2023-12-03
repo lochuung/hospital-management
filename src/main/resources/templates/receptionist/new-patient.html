@@ -77,7 +77,7 @@
                                 <label class="mt-4">Birthday</label>
                                 <input class="form-control" type="date"
                                        pattern="dd/MM/yyyy"
-                                       th:value="*{dob}"
+                                       th:value="*{#dates.format(dob, 'yyyy-MM-dd')}"
                                        required
                                        name="dob"/>
                             </div>

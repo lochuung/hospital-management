@@ -6,17 +6,12 @@ import com.huuloc.hospital.service.EmployeeService;
 import com.huuloc.hospital.util.dto.PrescriptionDTO;
 import com.huuloc.hospital.util.dto.PrescriptionItemDTO;
 import com.huuloc.hospital.util.mapper.PrescriptionMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,17 +19,20 @@ import java.util.List;
 @Controller
 @RequestMapping("/doctor")
 public class DoctorController {
-    @Autowired
-    private DoctorService doctorService;
-    @Autowired
-    private EmployeeService employeeService;
+    private final DoctorService doctorService;
+    private final EmployeeService employeeService;
+
+    public DoctorController(DoctorService doctorService, EmployeeService employeeService) {
+        this.doctorService = doctorService;
+        this.employeeService = employeeService;
+    }
 
     @GetMapping(value = {
             "",
             "/",
             "/patients"
     })
-    String getPatients(Model model) {
+    String index(Model model) {
         model.addAttribute("patients", doctorService.findAllPatient());
         return "doctor/patients";
     }
@@ -52,6 +50,18 @@ public class DoctorController {
         model.addAttribute("patient",
                 doctorService.findPatientById(id));
         return "doctor/prescriptions";
+    }
+
+    @GetMapping("/prescription/{id}")
+    String getPrescription(Model model,
+                           @PathVariable("id") Long id) {
+        Prescription prescription = doctorService.findPrescriptionById(id);
+        model.addAttribute("prescription", prescription);
+        model.addAttribute("totalPrice",
+                doctorService.getTotalPrice(prescription.getPrescriptionItems()
+                )
+        );
+        return "doctor/view-prescription";
     }
 
     @GetMapping("/prescriptions/{id}/new")

@@ -21,11 +21,15 @@ import java.sql.Date;
 @Controller
 @RequestMapping("/receptionist")
 public class ReceptionistController {
+    private final ReceptionistService receptionistService;
+
     @Autowired
-    private ReceptionistService receptionistService;
+    public ReceptionistController(ReceptionistService receptionistService) {
+        this.receptionistService = receptionistService;
+    }
 
     @GetMapping(value = {"/", "", "/patients"})
-    public String home(Model model) {
+    public String index(Model model) {
         model.addAttribute("patients", receptionistService
                 .getAllPatients());
         return "receptionist/patients";

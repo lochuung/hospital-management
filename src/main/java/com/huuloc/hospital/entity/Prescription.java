@@ -17,7 +17,8 @@ public class Prescription implements Serializable {
     private Long id;
     @Size(min = 2)
     private String diseaseName;
-    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     private List<PrescriptionItem> prescriptionItems;
     private String note;
     @ManyToOne

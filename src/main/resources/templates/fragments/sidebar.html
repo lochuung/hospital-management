@@ -31,6 +31,29 @@
                     <span class="sidenav-normal"> Employees <b class="caret"></b></span>
                 </a>
             </li>
+            <li class="nav-item" sec:authorize="hasRole('ACCOUNTANT')">
+                <a th:class="${#httpServletRequest.requestURI.equals('/accountant')
+                ? 'active nav-link' : 'nav-link'}"
+                   th:href="@{/accountant}">
+                    <span class="sidenav-normal">Statistic<b class="caret"></b></span>
+                </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('DOCTOR')">
+                <a th:class="${#httpServletRequest.requestURI.equals('/doctor') ||
+                #httpServletRequest.requestURI.equals('/doctor/patients')
+                ? 'active nav-link' : 'nav-link'}"
+                   th:href="@{/doctor}">
+                    <span class="sidenav-normal">Patients<b class="caret"></b></span>
+                </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('PHARMACIST')">
+                <a th:class="${#httpServletRequest.requestURI.equals('/pharmacist') ||
+                #httpServletRequest.requestURI.equals('/pharmacist/drugs')
+                ? 'active nav-link' : 'nav-link'}"
+                   th:href="@{/pharmacist}">
+                    <span class="sidenav-normal">Drugs<b class="caret"></b></span>
+                </a>
+            </li>
             <li class="nav-item" sec:authorize="hasRole('RECEPTIONIST')">
                 <a th:class="${#httpServletRequest.requestURI.equals('/receptionist') ||
                 #httpServletRequest.requestURI.equals('/receptionist/patients')

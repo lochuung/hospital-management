@@ -27,6 +27,8 @@ public class Employee implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String address;
+    @Pattern(regexp = "((09|03|07|08|05)+([0-9]{8})\\b)",
+            message = "Your phone number is invalid")
     private String phone;
     @Column(updatable = false, insertable = false)
     private String type;
@@ -41,10 +43,25 @@ public class Employee implements Serializable {
     private String username;
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
-    @Lob
-    private String photo;
 
     public Employee() {
+    }
+
+    public Employee(Long id, String fullName,
+                    Date dob, Gender gender, String address,
+                    String phone, String type, String email, Date joinDate,
+                    String username, String password) {
+        this.id = id;
+        this.fullName = fullName;
+        this.dob = dob;
+        this.gender = gender;
+        this.address = address;
+        this.phone = phone;
+        this.type = type;
+        this.email = email;
+        this.joinDate = joinDate;
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
@@ -133,13 +150,5 @@ public class Employee implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 }

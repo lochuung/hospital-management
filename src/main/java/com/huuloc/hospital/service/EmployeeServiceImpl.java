@@ -1,4 +1,4 @@
-package com.huuloc.hospital.service.impl;
+package com.huuloc.hospital.service;
 
 import com.huuloc.hospital.entity.Employee;
 import com.huuloc.hospital.repository.EmployeeRepository;
@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +20,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-    }
-
-    @Override
-    public Employee getEmployeeById(long id) {
-        return employeeRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Employee not found with id " + id)
-        );
     }
 
     @Override

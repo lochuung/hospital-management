@@ -1,29 +1,29 @@
-package com.huuloc.hospital.service.impl;
+package com.huuloc.hospital.service;
 
-import com.huuloc.hospital.entity.Doctor;
 import com.huuloc.hospital.entity.Patient;
-import com.huuloc.hospital.entity.Receptionist;
 import com.huuloc.hospital.repository.PatientRepository;
 import com.huuloc.hospital.service.ReceptionistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class ReceptionistServiceImp implements ReceptionistService {
-    @Autowired
-    private PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
 
-    @Override
-    public long addPatient(Patient patient) {
-        patientRepository.save(patient);
-        return patient.getId();
+    @Autowired
+    public ReceptionistServiceImp(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
     }
 
     @Override
-    public boolean updatePatient(long id, Patient patient) {
+    public void addPatient(Patient patient) {
+        patientRepository.save(patient);
+    }
+
+    @Override
+    public void updatePatient(long id, Patient patient) {
         Patient oldPatient = patientRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid patient Id:" + id));
 
@@ -36,7 +36,6 @@ public class ReceptionistServiceImp implements ReceptionistService {
         oldPatient.setInsuranceNumber(patient.getInsuranceNumber());
 
         patientRepository.save(oldPatient);
-        return true;
     }
 
     @Override

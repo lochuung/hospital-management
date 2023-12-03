@@ -1,0 +1,186 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}"
+>
+<th:block layout:fragment="content">
+    <div class="container-fluid py-4">
+        <div class="row mt-4">
+            <div class="col-lg-8 col-sm-6 mt-sm-0 mt-4 mx-auto">
+                <div class="card">
+                    <div class="card-header pb-0 p-3">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">Revenue</h6>
+                            <button type="button"
+                                    class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 ms-2 btn-sm d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title
+                                    data-bs-original-title="See revenue statistic">
+                                <i class="fas fa-info" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="d-flex align-items-center">
+                <span class="badge badge-md badge-dot me-4">
+                  <i class="bg-dark"></i>
+                  <span class="text-dark text-xs">Revenue</span>
+                </span>
+                            <div class="card-body p-3">
+                                <div class="chart">
+                                    <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="alert alert-danger text-center" role="alert"
+                         th:if="${errorMessage != null}">
+                            <span class="alert-text text-light"
+                                  th:text="${errorMessage}">
+                            </span>
+                    </div>
+                    <div class="alert alert-success text-center" role="alert"
+                         th:if="${successMessage != null}">
+                            <span class="alert-text text-light"
+                                  th:text="${successMessage}">
+                            </span>
+                    </div>
+                    <div class="card-header">
+                        <div class="d-lg-flex">
+                            <div>
+                                <h5 class="mb-0">Prescriptions Management</h5>
+                                <p class="text-sm mb-0">
+                                    Prescriptions management for accountant.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="datatable-search">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Prescription Id</th>
+                                <th>Doctor ID</th>
+                                <th>Patient ID</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="prescription : ${prescriptions}">
+                                <td th:text="${prescription.id}"></td>
+                                <td th:text="${prescription.doctor.id}"></td>
+                                <td th:text="${prescription.patient.id}"></td>
+                                <td class="text-sm">
+                                    <a th:href="@{/accountant/prescription/{id}(id=${prescription.id})}"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-original-title="Preview">
+                                        <i class="fas fa-eye text-secondary"></i>
+                                        Print Prescription
+                                    </a>
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/plugins/chartjs.min.js}"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var ctx1 = document.getElementById("chart-line").getContext("2d");
+
+        var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+        gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+        gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+        var gradientStroke2 = ctx1.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+        gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+        gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+
+        let revenues = [];
+
+        /*[# th:each="revenue : ${revenues}"]*/
+        revenues.push(/*[[${revenue}]]*/);
+        /*[/]*/
+
+        // Line chart
+        new Chart(ctx1, {
+            type: "line",
+            data: {
+                labels: ["Jan", "Feb","Mach","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [
+                    {
+                        label: "Revenue",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        pointRadius: 2,
+                        pointBackgroundColor: "#3A416F",
+                        borderColor: "#3A416F",
+                        borderWidth: 3,
+                        backgroundColor: gradientStroke2,
+                        fill: true,
+                        data: revenues,
+                        maxBarThickness: 6
+                    }
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            drawBorder: false,
+                            display: true,
+                            drawOnChartArea: true,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            padding: 10,
+                            color: '#9ca2b7'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            drawBorder: false,
+                            display: true,
+                            drawOnChartArea: true,
+                            drawTicks: true,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            color: '#9ca2b7',
+                            padding: 10
+                        }
+                    },
+                },
+            },
+        });
+        /*]]>*/
+    </script>
+</th:block>
+</html>

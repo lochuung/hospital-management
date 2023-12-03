@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="content">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Add New Drug</h4>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <form th:action="@{/pharmacist/drugs/save}" method="POST" class="col-lg-12 mt-lg-0 mt-4"
+                  th:object="${drug}">
+                <div class="card">
+                    <div class="alert alert-danger text-center" role="alert"
+                         th:if="${errorMessage != null}">
+                            <span class="alert-text text-light"
+                                  th:text="${errorMessage}">
+                            </span>
+                    </div>
+                    <div class="alert alert-success text-center" role="alert"
+                         th:if="${successMessage != null}">
+                            <span class="alert-text text-light"
+                                  th:text="${successMessage}">
+                            </span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="font-weight-bolder">New Drug</h5>
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <label>Drug Name</label>
+                                <input class="form-control" type="text"
+                                       th:value="*{name}" required
+                                       name="name"/>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <label>Price</label>
+                                <input class="form-control" type="number"
+                                       th:value="*{price}" required
+                                       name="price"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn
+                        bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+</html>

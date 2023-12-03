@@ -1,6 +1,5 @@
 package com.huuloc.hospital.controller;
 
-import com.huuloc.hospital.entity.Doctor;
 import com.huuloc.hospital.entity.Employee;
 import com.huuloc.hospital.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -19,23 +16,16 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class ProfileController {
     private final EmployeeRepository employeeRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public ProfileController(EmployeeRepository employeeRepository) {
+    public ProfileController(EmployeeRepository employeeRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.employeeRepository = employeeRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping(value = "/profile")
     public String profile(Model model, Authentication authentication) {
-        assert authentication != null;
-        Employee employee = employeeRepository
-                .findByUsername(authentication.getName())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        if (employee.getType().equals("ROLE_DOCTOR")) {
-            Doctor doctor = (Doctor) employee;
-        }
         model.addAttribute("employee", employeeRepository
                 .findByUsername(authentication.getName())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"))

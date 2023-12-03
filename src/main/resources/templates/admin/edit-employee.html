@@ -52,8 +52,11 @@
                             <div class="col-3">
                                 <label class="mt-4">Password</label>
                                 <input class="form-control" type="password"
-                                       name="password" required
-                                th:value="*{password}"/>
+                                       id="new-password"/>
+                                <input type="hidden" name="password"
+                                       th:value="*{password}"/>
+                                <input type="hidden" id="old-password"
+                                        th:value="*{password}">
                             </div>
                             <div class="col-3">
                                 <label class="mt-4">Phone</label>
@@ -67,7 +70,8 @@
                                 <label class="mt-4">Birthday</label>
                                 <input class="form-control" type="date"
                                        pattern="dd/MM/yyyy"
-                                       th:value="*{dob}" required
+                                       th:value="*{#dates.format(dob, 'yyyy-MM-dd')}"
+                                       required
                                        name="dob"/>
                             </div>
                             <div class="col-sm-6">
@@ -80,20 +84,6 @@
                                     <option value="FEMALE"
                                             th:selected="${employee.gender == 'FEMALE'}">Female
                                     </option>
-                                </select>
-                                <label>Role</label>
-                                <select class="form-control"
-                                        name="type">
-                                    <option value="Admin"
-                                            th:selected="${employee.type == 'Admin'}">Admin
-                                    </option>
-                                    <option value="Doctor"
-                                            th:selected="${employee.type == 'Doctor'}">
-                                        Doctor</option>
-                                    <option value="Receptionist"
-                                            th:selected="${employee.type == 'Receptionist'}">Receptionist</option>
-                                    <option value="Accountant"
-                                            th:selected="${employee.type == 'Accountant'}">Accountant</option>
                                 </select>
                             </div>
                         </div>
@@ -108,5 +98,22 @@
             </form>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="scripts">
+    <script>
+        window.onload = function () {
+            let newPassword = document.getElementById('new-password');
+            let password = document.querySelector('input[name="password"]');
+            let oldPassword = document.getElementById('old-password');
+            newPassword.onchange = function () {
+                if (newPassword.value !== password.value) {
+                    password.value = newPassword.value;
+                }
+                if (password.value === "") {
+                    password.value = oldPassword.value;
+                }
+            }
+        }
+    </script>
 </th:block>
 </html>

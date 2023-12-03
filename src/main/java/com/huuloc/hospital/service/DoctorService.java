@@ -9,12 +9,11 @@ public interface DoctorService {
     Patient findPatientById(Long id);
     List<Drug> findAllDrug();
     Drug findDrugById(Long id);
+    double getTotalPrice(List<PrescriptionItem> prescriptionItems);
 
     List<Prescription> findAllPrescription(
             Long patientId,
             Long doctorId);
-    long addPrescription(Prescription prescription);
+    void addPrescription(Prescription prescription);
     Prescription findPrescriptionById(Long id);
-    long updatePrescription(Prescription prescription);
-    void deletePrescription(Long id);
 }

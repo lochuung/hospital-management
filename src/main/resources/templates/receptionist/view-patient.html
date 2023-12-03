@@ -23,7 +23,7 @@
                                 <h3 class="mt-lg-0 mt-4" th:text="*{fullName}"></h3>
                                 <h6 class="mb-0" th:text="'Insurance Number: '
                                 + *{insuranceNumber}"></h6>
-                                <h5 th:text="'Birthday: ' + *{dob}"></h5>
+                                <h5 th:text="'Birthday: ' + *{#dates.format(dob, 'dd/MM/yyyy')}"></h5>
                                 <span class="badge badge-success"
                                       th:text="*{id}"></span>
                                 <br>

@@ -1,4 +1,4 @@
-package com.huuloc.hospital.service.impl;
+package com.huuloc.hospital.service;
 
 import com.huuloc.hospital.entity.*;
 import com.huuloc.hospital.repository.EmployeeRepository;
@@ -19,7 +19,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public long addEmployee(Employee employee) {
+    public void addEmployee(Employee employee) {
         if (employeeRepository.findByUsername(employee.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Username is already taken!");
         }
@@ -37,6 +37,9 @@ public class AdminServiceImpl implements AdminService {
             case "Accountant":
                 employee = new Accountant();
                 break;
+            case "Pharmacist":
+                employee = new Pharmacist();
+                break;
             default:
                 throw new IllegalArgumentException("Invalid employee type!");
         }
@@ -44,7 +47,6 @@ public class AdminServiceImpl implements AdminService {
         employee.setJoinDate(new Date());
 
         employeeRepository.save(employee);
-        return employee.getId();
     }
 
     private void copyEmployee(Employee employee, Employee oldEmployee) {
@@ -64,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public long updateEmployee(long id, Employee employee) {
+    public void updateEmployee(long id, Employee employee) {
         Employee old = employeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
 
@@ -72,7 +74,6 @@ public class AdminServiceImpl implements AdminService {
         old.setType(employee.getType());
 
         employeeRepository.save(old);
-        return old.getId();
     }
 
     @Override
