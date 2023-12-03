@@ -1,4 +1,4 @@
-package com.huuloc.hospital.service;
+package com.huuloc.hospital.service.impl;
 
 import com.huuloc.hospital.entity.Patient;
 import com.huuloc.hospital.repository.PatientRepository;
