@@ -13,7 +13,7 @@ public class Drug implements Serializable {
     private String name;
     @NotNull(message = "Price is required")
     private Double price;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pharmacist_id")
     private Pharmacist pharmacist;
     public Drug() {

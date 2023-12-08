@@ -39,7 +39,6 @@ public class PharmacistServiceImpl implements PharmacistService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid drug Id:" + id));
         drugUpdate.setName(drug.getName());
         drugUpdate.setPrice(drug.getPrice());
-        drugUpdate.setPrescription(drug.getPrescription());
         drugUpdate.setPharmacist(drug.getPharmacist());
 
         drugRepository.save(drugUpdate);

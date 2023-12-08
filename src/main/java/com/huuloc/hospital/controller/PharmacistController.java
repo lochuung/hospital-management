@@ -57,7 +57,8 @@ public class PharmacistController {
         pharmacistService.addDrug(drug);
         model.addAttribute("successMessage",
                 "Drug has been added successfully");
-        return "redirect:/pharmacist/drugs/new";
+        model.addAttribute("drugs", pharmacistService.getAllDrug());
+        return "/pharmacist/drugs";
     }
 
     @GetMapping("/drugs/edit/{id}")
