@@ -1,6 +1,10 @@
 package com.huuloc.hospital.entity;
 
 import com.huuloc.hospital.util.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,8 +13,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "patient")
+@Table(name = "patients")
 public class Patient implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,85 +43,4 @@ public class Patient implements java.io.Serializable {
 	@Column(unique = true)
 	@Size(max = 20, message = "Insurance number must be less than 20 characters")
 	private String insuranceNumber;
-
-
-	public Patient() {
-	}
-
-	public Patient(Long id, String idCard, String fullName, Date dob,
-				   Gender gender, String phone, String address,
-				   String insuranceNumber) {
-		this.id = id;
-		this.idCard = idCard;
-		this.fullName = fullName;
-		this.dob = dob;
-		this.gender = gender;
-		this.phone = phone;
-		this.address = address;
-		this.insuranceNumber = insuranceNumber;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public Date getDob() {
-		return dob;
-	}
-
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
-
-	public Gender getGender() {
-		return gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getInsuranceNumber() {
-		return insuranceNumber;
-	}
-
-	public String getIdCard() {
-		return idCard;
-	}
-
-	public void setIdCard(String idCard) {
-		this.idCard = idCard;
-	}
-
-	public void setInsuranceNumber(String insuranceNumber) {
-		this.insuranceNumber = insuranceNumber;
-	}
 }

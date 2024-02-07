@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 @DiscriminatorValue("Receptionist")
 public class Receptionist extends Employee implements Serializable {
     public Receptionist() {

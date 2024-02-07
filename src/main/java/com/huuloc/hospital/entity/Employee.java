@@ -1,6 +1,10 @@
 package com.huuloc.hospital.entity;
 
 import com.huuloc.hospital.util.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,8 +13,12 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Employee implements Serializable {
@@ -43,112 +51,4 @@ public class Employee implements Serializable {
     private String username;
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
-
-    public Employee() {
-    }
-
-    public Employee(Long id, String fullName,
-                    Date dob, Gender gender, String address,
-                    String phone, String type, String email, Date joinDate,
-                    String username, String password) {
-        this.id = id;
-        this.fullName = fullName;
-        this.dob = dob;
-        this.gender = gender;
-        this.address = address;
-        this.phone = phone;
-        this.type = type;
-        this.email = email;
-        this.joinDate = joinDate;
-        this.username = username;
-        this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

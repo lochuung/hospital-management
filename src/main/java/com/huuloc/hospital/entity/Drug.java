@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "drug")
+@Table(name = "drugs")
 public class Drug implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

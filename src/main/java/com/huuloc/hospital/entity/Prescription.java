@@ -1,5 +1,9 @@
 package com.huuloc.hospital.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,8 +13,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "prescription")
+@Table(name = "prescriptions")
 public class Prescription implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,77 +38,4 @@ public class Prescription implements Serializable {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
-
-    public Prescription() {
-    }
-
-    public Prescription(Long id, String diseaseName,
-                        List<PrescriptionItem> prescriptionItems,
-                        String note, Doctor doctor,
-                        Patient patient,
-                        Date date) {
-        this.id = id;
-        this.diseaseName = diseaseName;
-        this.prescriptionItems = prescriptionItems;
-        this.note = note;
-        this.doctor = doctor;
-        this.patient = patient;
-        this.date = date;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDiseaseName() {
-        return diseaseName;
-    }
-
-    public void setDiseaseName(String diseaseName) {
-        this.diseaseName = diseaseName;
-    }
-
-    public List<PrescriptionItem> getPrescriptionItems() {
-        return prescriptionItems;
-    }
-
-    public void setPrescriptionItems(List<PrescriptionItem> prescriptionItems) {
-        this.prescriptionItems = prescriptionItems;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }
