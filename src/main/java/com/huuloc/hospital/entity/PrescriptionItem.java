@@ -17,8 +17,9 @@ import java.io.Serializable;
 public class PrescriptionItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "prescription_item_id")
     private Long id;
-    @OneToOne(targetEntity = Drug.class,
+    @ManyToOne(targetEntity = Drug.class,
             fetch = FetchType.EAGER)
     private Drug drug;
     @ManyToOne(targetEntity = Prescription.class,
