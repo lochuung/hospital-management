@@ -29,7 +29,6 @@ public class Drug implements Serializable {
 
     @OneToMany(targetEntity = PrescriptionItem.class,
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @JoinColumn(name = "prescription_item_id")
+            cascade = CascadeType.ALL, mappedBy = "drug")
     private List<PrescriptionItem> prescriptionItem;
 }

@@ -5,16 +5,17 @@ import lombok.*;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
-@Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "employees")
 @DiscriminatorValue("Pharmacist")
 public class Pharmacist extends Employee {
+    @OneToMany(mappedBy = "pharmacist")
+    private List<Drug> drugs;
 }

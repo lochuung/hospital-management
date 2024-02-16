@@ -21,11 +21,13 @@ public class PrescriptionItem implements Serializable {
     private Long id;
     @ManyToOne(targetEntity = Drug.class,
             fetch = FetchType.EAGER)
+    @JoinColumn(name = "drug_id")
     private Drug drug;
     @ManyToOne(targetEntity = Prescription.class,
-            fetch = FetchType.EAGER, cascade =
+            fetch = FetchType.LAZY, cascade =
             {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "prescription_id")
     private Prescription prescription;
     private int quantity;
 }
